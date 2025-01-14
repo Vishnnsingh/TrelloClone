@@ -1,33 +1,38 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { useState } from 'react';
+import './App.css';
+import Header from './components/Header';
+import Sidebar from './components/Sidebar';
+import Main from './components/Main';
+import { BoardContext } from './context/BoardContext';
+
+
 
 function App() {
-  const [count, setCount] = useState(0)
-
+  const boardData = {
+    active:0,
+    boards:[
+      {
+        name:'My Trello Board',
+        bgcolor:'#069',
+        list:[
+          {id:"1",title:"To do",items:[{id:"cdrFt",title:"Project Description 1"}]},
+          {id:"2",title:"In Progress",items:[{id:"cdrFv",title:"Project Description 2"}]},
+          {id:"3",title:"Done",items:[{id:"cdrFb",title:"Project Description 3"}]}
+        ]
+      }
+    ]
+  }
+  const [allboard,setAllBoard] = useState(boardData); 
+  
   return (
     <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
+    <Header></Header>
+    <BoardContext.Provider value={{allboard,setAllBoard}}>
+      <div className='content flex'>
+        <Sidebar></Sidebar>
+        <Main></Main>
       </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
+    </BoardContext.Provider>
     </>
   )
 }
